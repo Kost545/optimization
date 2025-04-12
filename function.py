@@ -45,6 +45,7 @@ def F(X):
     return -fun
 
 def new_x(x):
+    # Создает новый вектор аргументов, откланяясь на маленькое значение
     for n in range(N):
         for m in range(M):
             for i in range(bakery):
