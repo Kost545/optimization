@@ -7,10 +7,10 @@ import numpy as np
 # нужно установить matplotlib и numpy
 
 ans = []
-initial_state = np.random.randint(0, 1000, size = (bakery, N, M))  # Начальная точка
 
 # запуски метода оптимизации
-for i in range(10):
+for i in range(1):
+    initial_state = np.random.randint(0, 1000, size=(bakery, N, M))  # Начальная точка
     best_state, best_value, values = simulated_annealing(F, initial_state, temperature)
 
     ans.append((-best_value, best_state, values))
@@ -20,7 +20,6 @@ print_ans(ans)
 
 # Генерация цветов
 colors = plt.cm.viridis(np.linspace(0, 1, len(ans)))
-# Создание точечного графика
 for i in range(len(ans)):
     x = range(len(ans[i][2]))
     y = ans[i][2]
@@ -39,7 +38,5 @@ plt.xlabel('Итерация')
 plt.ylabel('Значение')
 plt.grid(True, linestyle=':', linewidth=0.5)  # делаем сетку пунктирной и тонкой
 
-# Улучшаем внешний вид
 plt.tight_layout()  # автоматическая подгонка отступов
 plt.show()
-

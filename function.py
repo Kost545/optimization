@@ -1,6 +1,5 @@
 from consts import *
 from random import randint
-from numpy import random
 
 
 def F(X):
@@ -22,13 +21,13 @@ def F(X):
         for m in range(M):
             aver_price = 0
             for i in range(bakery):
-                aver_price += (pur_values[i][m]*X[i][n][m])
+                aver_price += (pur_values[i][m] * X[i][n][m])
 
             sum_x_i = sum([X[i][n][m] for i in range(bakery)])
             if sum_x_i:
                 aver_price /= sum_x_i
 
-            sale_values[n][m] = aver_price * (1 + alpha*(beta**cafes[n]))
+            sale_values[n][m] = aver_price * (1 + alpha * (beta**cafes[n]))
             sale_values[n][m] *= (1 - gamma*(sum_x_i - gal[m] * consumers[n]))
             sale_values[n][m] -= aver_price
             sale_values[n][m] *= sum_x_i
@@ -38,27 +37,40 @@ def F(X):
     for n in range(N):
         for m in range(M):
             for i in range(bakery):
-                sales_income += sale_values[n][m]*X[i][n][m]*consumers[n]
+                sales_income += sale_values[n][m] * X[i][n][m]
 
     # ее нужно максимизировать, то есть минимизировать -F
-    fun = sales_income - plane_price - sales_income
+    fun = sales_income - plane_price
     return -fun
 
 def new_x(x):
-    # Создает новый вектор аргументов, откланяясь на маленькое значение
-    for n in range(N):
-        for m in range(M):
-            for i in range(bakery):
-                new_corr = randint(-1, 1)
-                if x[i][n][m] + new_corr > 0:
-                    x[i][n][m] += new_corr
-                else:
-                    x[i][n][m] += new_corr + 1
-    return x
+    """
+    Создаёт новое состояние, слегка меняя один случайный элемент x[i][n][m].
+    Предполагается, что x — трехмерный список или массив.
+    """
+
+    new_state = x.copy()
+
+    # Случайный выбор индексов
+    i = randint(0, bakery - 1)
+    n = randint(0, N - 1)
+    m = randint(0, M - 1)
+
+    # Случайное отклонение
+    delta = randint(-5, 5)
+
+    new_value = new_state[i][n][m] + delta
+    if new_value < 0:
+        new_value = 0
+    elif new_value > 1000:
+        new_value = 1000
+
+    new_state[i][n][m] = new_value
+    return new_state
 
 def print_ans(ans):
     for i in range(len(ans)):
-        print(ans[i][0])
+        print(f"Значение функции: {ans[i][0]}")
 
         for j in ans[i][1]:
             for k in j:

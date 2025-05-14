@@ -21,6 +21,7 @@ def simulated_annealing(func, initial_state, temperature):
     best_value = current_value
     iteration = 0
     values = []
+    MAX_EXPONENT = 700
 
     while temperature > min_temperature or iteration < max_iterations:
         # Генерация нового состояния
@@ -37,7 +38,9 @@ def simulated_annealing(func, initial_state, temperature):
                 best_state, best_value = new_state, new_value
         else:
             # Иначе принимаем новое состояние с вероятностью exp(delta / temperature)
-            probability = exp(-delta / temperature)
+            ratio = -delta / temperature
+            ratio = min(ratio, MAX_EXPONENT)
+            probability = exp(ratio)
             if random() < probability:
                 current_state, current_value = new_state, new_value
 
@@ -47,4 +50,3 @@ def simulated_annealing(func, initial_state, temperature):
         values.append(-current_value)
 
     return best_state, best_value, values
-
