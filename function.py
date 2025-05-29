@@ -71,7 +71,7 @@ def new_x(x):
 def print_ans(ans):
     for i in range(len(ans)):
         print(f"Значение функции: {ans[i][0]}")
-        print("План поставок (X[i][n][m]):\n")
+        print("План поставок (X[i][n][m]):")
         for j in range(len(ans[i][1])):  # по пекарням
             print(f"Пекарня {j+1}:")
             for n in range(len(ans[i][1][j])):  # по корпусам
